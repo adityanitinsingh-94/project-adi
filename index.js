@@ -6,6 +6,8 @@ const transactionFormEl = document.getElementById("transaction-form");
 const descriptionEl = document.getElementById("description");
 const amountEl = document.getElementById("amount");
 
+
+
 let transactions = JSON.parse(localStorage.getItem("transactions")) || [];
 
 transactionFormEl.addEventListener("submit", addTransaction);
@@ -150,3 +152,43 @@ window.addEventListener("load", () => {
     alert(`💰 आपकी Transaction Limit ₹${transactionLimit} है।`);
   }
 });
+function downloadPDF() {
+    const { jsPDF } = window.jspdf;
+    const doc = new jsPDF();
+
+    doc.setFontSize(18);
+    doc.text("Transaction Report", 14, 20);
+
+    doc.setFontSize(12);
+    doc.text("Date: " + new Date().toLocaleString(), 14, 30);
+
+    // Summary
+    const balance = transactions.reduce((a, b) => a + b.amount, 0);
+    const income = transactions.filter(t => t.amount > 0).reduce((a, b) => a + b.amount, 0);
+    const expenses = transactions.filter(t => t.amount < 0).reduce((a, b) => a + b.amount, 0);
+
+    doc.setFontSize(14);
+    doc.text("Summary", 14, 50);
+    doc.setFontSize(12);
+    doc.text(`Balance: ₹${balance}`, 14, 60);
+    doc.text(`Income: ₹${income}`, 14, 70);
+    doc.text(`Expenses: ₹${expenses}`, 14, 80);
+
+    // Transactions list
+    doc.setFontSize(14);
+    doc.text("Transactions:", 14, 100);
+
+    let y = 110;
+    transactions.forEach((t, i) => {
+        if (y > 280) {
+            doc.addPage();
+            y = 20;
+        }
+
+        doc.setFontSize(11);
+        doc.text(`${i + 1}. ${t.description} — ₹${t.amount}`, 14, y);
+        y += 8;
+    });
+
+    doc.save("Transaction_Report.pdf");
+}
