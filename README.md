@@ -1,6 +1,6 @@
-🚀 RupayRakhwala — Your Money’s New Best Friend 💸
+🚀 Trackmycash — Your Money’s New Best Friend 💸
 💡 About the Project:
-RupeeRakhwala helps you keep track of your income and expenses effortlessly.
+Trackmycash helps you keep track of your income and expenses effortlessly.
 You can add transactions, view your balance in Indian Rupees (₹), and see a clean summary of your finances — all in a neat, responsive design.
 💻 Tech Stack:
 🔹 HTML – for structure
